@@ -18,4 +18,7 @@ La plantilla viene con los paquetes más básicos ya añadidos, una portada bás
 
 *Con la versión premium de Overleaf parece que se puede importar el proyecto directamente desde GitHub.*
 
-Espero que esta plantilla sea de utilidad. 😊
+## Ejemplo de portada
+![Ejemplo de portada](https://github.com/Soy-yo/texfege/blob/main/cover_example.png)
+
+Espero que os sea de utilidad. 😊
