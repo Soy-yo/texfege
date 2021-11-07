@@ -1,0 +1,179 @@
+\ProvidesPackage{texfege}
+
+
+% ===========================
+% Paquetes
+% ===========================
+
+% Básicos
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage{parskip}
+\usepackage[
+    margin=2.5cm,
+    headheight=2cm
+]{geometry}
+\usepackage{graphicx}
+
+% Secciones del documento (bibliografía, anexos, etc.)
+\usepackage{xpatch}
+\usepackage[autostyle]{csquotes}
+\usepackage[
+    backend=biber,
+    style=numeric,
+    sorting=none,
+    minnames=3,
+    maxnames=3,
+    giveninits=true
+]{biblatex}
+\usepackage[toc,page]{appendix}
+
+% Matemáticas
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{siunitx}
+
+% Mejoras del documento
+\usepackage{fancyhdr}
+\usepackage[colorlinks]{hyperref}
+\usepackage[nameinlink]{cleveref}
+
+% Necesarios para definir otros comandos
+\usepackage{ifthen}
+\usepackage{xstring}
+\usepackage{afterpage}
+\usepackage{titling}
+
+
+\graphicspath{{img/}}
+
+% ===========================
+% Comandos básicos
+% ===========================
+\newcommand{\titleenglish}[1]{%
+    \newcommand{\thetitleenglish}{#1}%
+}
+
+\newcommand{\tutor}[1]{%
+    \newcommand{\thetutor}{#1}%
+}
+
+\newcommand{\university}[1]{%
+    \newcommand{\theuniversity}{#1}%
+}
+
+\newcommand{\faculty}[1]{%
+    \newcommand{\thefaculty}{#1}%
+}
+
+\newcommand{\degree}[1]{%
+    \newcommand{\thedegree}{#1}
+}
+
+\newcommand{\course}[1]{%
+    \newcommand{\thecourse}{#1}
+}
+
+\newcommand{\logo}[1]{%
+    \newcommand{\thelogo}{logos/#1}
+    \IfSubStr{\thelogo}{simple}{
+        \newcommand{\logowidth}{0.45}
+    }{
+        \newcommand{\logowidth}{0.6}
+    }
+}
+
+\newcommand{\city}[1]{%
+    \newcommand{\thecity}{#1}
+}
+
+\newcommand{\tfgtext}{Trabajo de Fin de Grado del}
+\newcommand{\authortext}{Autor}
+\newcommand{\tutortext}{Director}
+
+% Blankpage
+\makeatletter
+\newcommand{\blankpage}{\@ifstar\blankpageNoCount\blankpageCount}
+
+% Página en blanco que cuenta para la numeración
+\newcommand\blankpageCount{%
+    \afterpage{%
+        \null
+        \thispagestyle{empty}%
+        \newpage
+    }
+}
+% Página en blanco que NO cuenta para la numeración (con *)
+\newcommand\blankpageNoCount{%
+    \afterpage{%
+        \null
+        \thispagestyle{empty}%
+        \addtocounter{page}{-1}%
+        \newpage
+    }
+}
+\makeatother
+
+% ===========================
+% Portada
+% ===========================
+\renewcommand{\maketitle}{%
+    \begin{titlepage}
+        \centering
+        
+        % Título
+	    \rule{\linewidth}{0.3mm}
+        \huge\textbf{\thetitle}\vspace*{-0.75em}
+	    \rule{\linewidth}{0.3mm}
+	    
+	    % Logo
+	    \vspace{1em}
+	    \includegraphics[width=\logowidth\textwidth]{\thelogo}
+	    
+	    % Universidad
+	    \ifthenelse{\equal{\theuniversity}{}}{}{%
+    	    \Large\textsc{\theuniversity}
+	    }
+	    
+	    % Facultad
+	    \large\textsc{\thefaculty}
+	    
+	    % Grado
+	    \large\tfgtext\ \thedegree
+	    
+        \ifthenelse{\equal{\thecourse}{}}{}{%
+	        Curso \thecourse
+	    }
+    	\vspace{1em}
+	    
+	    % Título en inglés
+	    \ifthenelse{\equal{\thetitleenglish}{}}{}{%
+    	    \LARGE\textbf{\thetitleenglish}
+    	    \rule{\linewidth}{0.1mm}
+        }
+        \vspace{-1em}
+        \vfill
+	    
+	    % Autoría y fecha
+	    \begin{flushright}
+            {\normalsize
+	        \ifthenelse{\equal{\authortext}{}}{}{%
+                \authortext: \\
+            }
+            \textsc{\theauthor} \\
+            \vspace{0.5em}
+	        \ifthenelse{\equal{\tutortext}{}}{}{%
+                \tutortext: \\
+            }
+            \textsc{\thetutor} \\
+            \vspace{0.5em}
+	        \ifthenelse{\equal{\thedate}{}}{}{%
+    	        \ifthenelse{\equal{\thecity}{}}{}{%
+                    \thecity,%
+    	         } \thedate}
+	         }
+	    \end{flushright}
+	    
+    \end{titlepage}
+}

@@ -1,0 +1,124 @@
+% Cambiar por english si el TFG es en inglés
+\documentclass[spanish,a4paper,12pt]{report}
+
+\usepackage{texfege}
+
+% Paquetes locales con comandos útiles (comentar si no se van a usar)
+\usepackage{pkg/mathutils}
+
+% ===========================
+% Opciones de paquetes
+% ===========================
+
+% Nombre de los anexos en español
+\addto\captionsspanish{
+    \renewcommand{\appendixname}{Anexo}
+    \renewcommand{\appendixtocname}{Anexos}
+    \renewcommand{\appendixpagename}{Anexos}
+}
+
+% Para poner números en el texto y que se formateen automáticamente usar \num
+% Por ejemplo, \num{12345.6} -> 12 345,6
+\sisetup{%
+    group-separator={\,},%
+    group-minimum-digits={5},%
+    output-decimal-marker={,}%
+}
+
+% Encabezado de las páginas (se muestra el capítulo actual a la izquierda)
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+
+% Archivo de bibliografía y macro para usar "et al." en vez de "y otros" cuando hay muchos autores
+% (lo último sólo afectaría si el TFG está en español, en inglés se hace automáticamente)
+\addbibresource{biblio.bib}
+\xpatchbibmacro{name:andothers}{%
+    \bibstring{andothers}%
+}{%
+    \textit{et al.}%
+}{}{}
+
+% Nombre de las secciones para cleveref
+\addto\captionsspanish{
+    \crefname{section}{sección}{secciones}
+    \crefname{subsection}{sección}{secciones}
+    \Crefname{section}{Sección}{Secciones}
+    \Crefname{subsection}{Sección}{Secciones}
+}
+
+
+% ===========================
+% Datos del TFG
+% ===========================
+
+% No eliminar ningún campo; si no se quiere usar se deja en blanco
+
+\title{Título de mi Trabajo de Fin de Grado}
+\titleenglish{Title of my Bachelor’s thesis, but this time in English}
+
+\author{Nombre del Autor}
+\tutor{Nombre del Tutor}
+
+% Hay que definir así la fecha para que babel la traduzca
+% Si se escribe a mano se puede eliminar \AtBeginDocument
+\AtBeginDocument{\date{\today}}
+
+\university{Universidad Complutense de Madrid}
+\faculty{Facultad del Espacio}
+\degree{Grado en Filología Marciana}
+\course{2021/22}
+
+% Valores válidos: ucm_simple, ucm_colored, ucm_black
+% O añade tu logo a img/logos y escribe aquí el nombre del archivo
+\logo{ucm_simple}
+
+% Para cambiar el tamaño del logo si fuera necesario
+% \renewcommand{\logowidth}{0.5}
+
+\city{Madrid}
+
+% Descomentar para cambiar el texto que se muestra para el autor/tutor
+% \renewcommand{\authortext}{Autores}
+% \renewcommand{\tutortext}{Directores}
+    
+% ===========================
+% Inicio del documento
+% ===========================
+\begin{document}
+
+\maketitle
+
+\afterpage{%
+    \null
+    \thispagestyle{empty}%
+    \renewcommand{\thepage}{0}
+    \addtocounter{page}{-1}%
+    \newpage
+}
+
+\pagenumbering{Roman}
+
+\input{tex/abstract}
+
+{
+    % Comenta para usar la configuración de hipervínculos por defecto en el índice
+    \hypersetup{linkcolor=black}
+    \tableofcontents
+}
+
+\blankpage
+\vfill\newpage
+\pagenumbering{arabic}
+
+\input{tex/chapter1/chapter1}
+\input{tex/chapter2/chapter2}
+\input{tex/chapter3/chapter3}
+\input{tex/chapter4/chapter4}
+\input{tex/chapter5/chapter5}
+
+\input{tex/appendices}
+
+\printbibliography[heading=bibintoc]
+
+\end{document}

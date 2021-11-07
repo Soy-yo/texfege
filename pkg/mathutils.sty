@@ -1,0 +1,108 @@
+\ProvidesPackage{pkg/mathutils}
+
+% Define numerosos operadores matemáticos, como \norm, \eval...
+% https://ctan.javinator9889.com/macros/latex/contrib/physics/physics.pdf
+\usepackage{physics}
+
+% Paquetes para teoremas
+\usepackage{amsthm}
+\usepackage{thmtools}
+
+
+% Alias para letras dobles (naturales, enteros, etc.)
+\newcommand{\IN}{\mathbb{N}}
+\newcommand{\IZ}{\mathbb{Z}}
+\newcommand{\IQ}{\mathbb{Q}}
+\newcommand{\IR}{\mathbb{R}}
+\newcommand{\IE}{\mathbb{E}}
+
+
+% Alias para algunas letras estilizadas para ciertos usos
+\newcommand{\Class}{\mathcal{C}}
+\newcommand{\Uniform}{\mathcal{U}}
+\newcommand{\Normal}{\mathcal{N}}
+\newcommand{\Matrix}{\mathcal{M}}
+
+
+% Restricción de una función
+% https://tex.stackexchange.com/questions/22252/how-to-typeset-function-restrictions
+\newcommand{\restr}[2]{{
+    \left.\kern-\nulldelimiterspace
+    #1 % the function
+    \vphantom{\big|}
+    \right|_{#2}
+}}
+
+
+% Producto escalar (con coma)
+\DeclarePairedDelimiterX{\dotprod}[2]{\langle}{\rangle}{#1, #2}
+
+
+% Entornos de teorema con soporte para cleveref
+\newcommand{\theoremtitle}{Theorem}
+\newcommand{\theoremtitles}{Theorems}
+\newcommand{\propositiontitle}{Proposition}
+\newcommand{\propositiontitles}{Propositions}
+\newcommand{\lemmatitle}{Lemma}
+\newcommand{\lemmatitles}{Lemmas}
+\newcommand{\definitiontitle}{Definition}
+\newcommand{\definitiontitles}{Definitions}
+\newcommand{\notetitle}{Note}
+\newcommand{\notetitles}{Notes}
+
+\addto\captionsspanish{
+    \renewcommand{\theoremtitle}{Teorema}
+    \renewcommand{\theoremtitles}{Teoremas}
+    \renewcommand{\propositiontitle}{Proposición}
+    \renewcommand{\propositiontitles}{Proposiciones}
+    \renewcommand{\lemmatitle}{Lema}
+    \renewcommand{\lemmatitles}{Lemas}
+    \renewcommand{\definitiontitle}{Definición}
+    \renewcommand{\definitiontitles}{Definiciones}
+    \renewcommand{\notetitle}{Nota}
+    \renewcommand{\notetitles}{Notas}
+}
+
+\AtBeginDocument{
+    \declaretheorem[
+        style=plain,
+        title=\theoremtitle,
+        refname={\MakeLowercase\theoremtitle,\MakeLowercase\theoremtitles},
+        Refname={\theoremtitle,\theoremtitles},
+        parent=chapter
+    ]{theorem}
+
+    \declaretheorem[
+        style=plain,
+        title=\propositiontitle,
+        refname={\MakeLowercase\propositiontitle,\MakeLowercase\propositiontitles},
+        Refname={\propositiontitle,\propositiontitles},
+        sibling=theorem
+    ]{proposition}
+
+    \declaretheorem[
+        style=plain,
+        title=\lemmatitle,
+        refname={\MakeLowercase\lemmatitle,\MakeLowercase\lemmatitles},
+        Refname={\lemmatitle,\lemmatitles},
+        sibling=theorem
+    ]{lemma}
+
+    \declaretheorem[
+        style=definition,
+        title=\definitiontitle,
+        refname={\MakeLowercase\definitiontitle,\MakeLowercase\definitiontitles},
+        Refname={\definitiontitle,\definitiontitles},
+        sibling=theorem,
+        prefoothook=\vspace{1em}
+    ]{definition}
+
+    \declaretheorem[
+        style=remark,
+        title=\notetitle,
+        refname={\MakeLowercase\notetitle,\MakeLowercase\notetitles},
+        Refname={\notetitle,\notetitles},
+        sibling=theorem,
+        prefoothook=\vspace{1em}
+    ]{note}
+}
